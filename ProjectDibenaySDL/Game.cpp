@@ -7,13 +7,13 @@ namespace Mer
 	{
 		if (InitSDL())//if sdl and other componets were initalised correctly start program
 		{
-			_data->sAM.ProcessSettingsFile(settingsFile);//load settings from file
+			_data->settings.ProcessSettingsFile(settingsFile);//load settings from file
 			//sets music volume to ('music_volume' * 'master_volume') / 100 using the settings
-			Mix_VolumeMusic((_data->sAM.getAudioSetting("music_volume") * _data->sAM.getAudioSetting("master_volume")) / 100);
+			Mix_VolumeMusic((_data->settings.getAudioSetting("music_volume") * _data->settings.getAudioSetting("master_volume")) / 100);
 			//sets effect volume to ('effect_volume'*'master_volume') / 100 using the settings
-			Mix_Volume(-1, (_data->sAM.getAudioSetting("effect_volume") * _data->sAM.getAudioSetting("master_volume")) / 100);
+			Mix_Volume(-1, (_data->settings.getAudioSetting("effect_volume") * _data->settings.getAudioSetting("master_volume")) / 100);
 			//create centered window titled 'Dibenay' with height and width from settings file
-			_data->window = SDL_CreateWindow("Dibenay", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _data->sAM.getDisplaySetting("screen_width"), _data->sAM.getDisplaySetting("screen_height"), NULL);
+			_data->window = SDL_CreateWindow("Dibenay", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _data->settings.getDisplaySetting("screen_width"), _data->settings.getDisplaySetting("screen_height"), NULL);
 			//add first state to state machine
 			_data->machine.AddState(StateRef(new TestState(this->_data)));
 			//sets running to be true in game data
@@ -88,7 +88,7 @@ namespace Mer
 
 	void Game::CleanUp()
 	{
-		_data->sAM.CleanUp();//clean up assets
+		_data->settings.CleanUp();//clean up assets
 		Mix_CloseAudio();//close audio device
 
 		SDL_Quit();//quit sdl

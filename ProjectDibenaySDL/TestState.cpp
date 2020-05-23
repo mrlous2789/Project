@@ -34,6 +34,13 @@ namespace Mer
 		drect2.y = 0;
 		drect2.w = 640;
 		drect2.h = 360;
+
+		int w, h;
+		SDL_QueryTexture(am.getTexture("test_button"), NULL, NULL, &w, &h);
+		buttonPosRect.x = (this->_data->settings.getDisplaySetting("screen_width") / 2) - (w / 2);
+		buttonPosRect.y = (this->_data->settings.getDisplaySetting("screen_height") / 2) - (h / 2);
+		buttonPosRect.w = w;
+		buttonPosRect.h = h;
 	}
 
 
@@ -42,15 +49,27 @@ namespace Mer
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
 		{
-			if (event.type == SDL_WINDOWEVENT)
+			switch (event.type)
 			{
+			case SDL_WINDOWEVENT:
 				switch (event.window.event)
 				{
 				case SDL_WINDOWEVENT_CLOSE:
 					this->_data->running = false;
+					break;
+				}
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				if (event.button.button == SDL_BUTTON_LEFT)
+				{
+					if (this->_data->input.IsTexturePressed(&buttonPosRect))
+					{
+						std::cout << "button pressed" << std::endl;
+					}
 				}
 			}
 		}
+
 
 	}
 
@@ -72,6 +91,7 @@ namespace Mer
 			SDL_RenderClear(renderer);
 			SDL_RenderCopy(renderer, am.getTexture("map_base_layer"), &srect1, &drect1);
 			SDL_RenderCopy(renderer, am.getTexture("map_nations_layer"), &srect1, &drect2);
+			SDL_RenderCopy(renderer, am.getTexture("test_button"), NULL, &buttonPosRect);
 			SDL_RenderPresent(renderer);
 		}
 	}

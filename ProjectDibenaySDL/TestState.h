@@ -30,6 +30,7 @@ namespace Mer
 		SDL_Rect srect1;
 		SDL_Rect drect1;
 		SDL_Rect drect2;
+		SDL_Rect buttonPosRect;
 		std::string assetsFile = "./Assets/game_assets_locations.txt";
 
 	};

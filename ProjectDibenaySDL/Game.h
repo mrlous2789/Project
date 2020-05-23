@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include "StateMachine.h"
 #include "AssetManager.h"
+#include "InputManager.h"
 
 namespace Mer
 {
@@ -14,7 +15,8 @@ namespace Mer
 		StateMachine machine; // state machine 
 		SDL_Window* window; // window
 		bool running; //boolean for whether game is running
-		AssetManager sAM; //program settings asset manager
+		AssetManager settings; //program settings asset manager
+		InputManager input; //input manager
 	};
 
 	typedef std::shared_ptr<GameData> GameDataReF;

@@ -95,41 +95,28 @@ namespace Mer
 	void AssetManager::ProccessLocationFile(SDL_Renderer* renderer, std::string locationsFile)
 	{
 		std::ifstream file;//new file
+
+		float fileSize = calcFileSize(locationsFile), currentProgress = 0.0f;
+
 		file.open(locationsFile);//open file that will be proccessed
 
 		std::string line;//line variable
 
-		while (std::getline(file, line))//while not at end of files
+		while (std::getline(file, line))//while not at end of file
 		{
+			currentProgress++;//count up current progress through file
 			std::string type, name, location;//string variables to store important parts of line
-			int typeLimiterPos = 0, nameLimiterPos = 0;//position varialbes of breakpoints in line
-			for (int i = 0; i < line.size() - 1; i++)//loop through line character by character
-			{
-				if (line[i] == typeLimiter && typeLimiterPos == 0)//finds first occurrence of type:name breakpoint ':'
-				{
-					typeLimiterPos = i;
-				}
-				if (line[i] == nameLimiter && nameLimiterPos == 0)//finds first occurrence of name=location breakpoint '='
-				{
-					nameLimiterPos = i;
-				}
-			}
+
+			int typeLimiterPos, nameLimiterPos;
+			std::tie(typeLimiterPos, nameLimiterPos) = calcLimiterPositions(line);//position variables of breakpoints in line
+
 			if (typeLimiterPos == 0 || nameLimiterPos == 0)//if breakpoints werent found output error to console
 			{
 				std::cout << line << " is a bad line" << std::endl;
 			}
 			else//seperate out line to important bits
 			{
-				std::cout << line << std::endl;
-				type = line;
-				type = type.substr(0, typeLimiterPos);//type = start of line to position of type:name breakpoint ':'
-				std::cout << type << std::endl;
-				name = line;
-				name = name.substr(typeLimiterPos + 1, (nameLimiterPos - typeLimiterPos) - 1); //name = characters between ':' and '='
-				std::cout << name << std::endl;
-				location = line;
-				location = location.substr(nameLimiterPos + 1, (line.size() - nameLimiterPos) - 1); //location = from '=' to end of file
-				std::cout << location << std::endl;
+				std::tie(type, name, location) = seperateLine(line, typeLimiterPos, nameLimiterPos);
 
 				if (type == "texture")//if type is texture load to texture map
 				{
@@ -148,6 +135,8 @@ namespace Mer
 					std::cout << type << " Bad Type" << std::endl;
 				}
 			}
+			loadingPercentage = (currentProgress / fileSize) * 100;//workout loaded files as a percentage
+			std::cout << "Loading: " << loadingPercentage << "%" << std::endl;
 		}
 		file.close();//close file
 	}
@@ -156,41 +145,28 @@ namespace Mer
 	void AssetManager::ProcessSettingsFile(std::string settingsFile)
 	{
 		std::ifstream file;//new file
+
+		float fileSize = calcFileSize(settingsFile), currentProgress = 0.0f;
+
 		file.open(settingsFile);//open settings file to process
 
 		std::string line;
 
 		while (std::getline(file, line))//while not at end of file
 		{
+			currentProgress++;//count up current progress through file
 			std::string type, name, value;//string variables to store important parts of the line
-			int typeLimiterPos = 0, nameLimiterPos = 0;//position variables of breakpoints in the line 
-			for (int i = 0; i < line.size() - 1; i++)//loop through line  character by character
-			{
-				if (line[i] == typeLimiter) // finds first occurrence of type : name breakpoint ':'
-				{
-					typeLimiterPos = i;
-				}
-				if (line[i] == nameLimiter) //finds first occurrence of name:value breakpoint '='
-				{
-					nameLimiterPos = i;
-				}
-			}
+
+			int typeLimiterPos, nameLimiterPos;
+			std::tie(typeLimiterPos, nameLimiterPos) = calcLimiterPositions(line);//position variables of breakpoints in line
+
 			if (typeLimiterPos == 0 || nameLimiterPos == 0)//if breakpoints werent found output error to console
 			{
 				std::cout << line << " is a bad line" << std::endl;
 			}
 			else//seperate out line to important bits
 			{
-				std::cout << line << std::endl;
-				type = line;
-				type = type.substr(0, typeLimiterPos);//type = start of line to position of type:name breakpoint ':'
-				std::cout << type << std::endl;
-				name = line;
-				name = name.substr(typeLimiterPos + 1, (nameLimiterPos - typeLimiterPos) - 1); //name = characters between ':' and '='
-				std::cout << name << std::endl;
-				value = line;
-				value = value.substr(nameLimiterPos + 1, (line.size() - nameLimiterPos) - 1); //location = from '=' to end of file
-				std::cout << value << std::endl;
+				std::tie(type, name, value) = seperateLine(line, typeLimiterPos, nameLimiterPos);
 
 				if (type == "display")//if type = display save to display setting map
 				{
@@ -205,8 +181,55 @@ namespace Mer
 					std::cout << type << " Bad Type" << std::endl;
 				}
 			}
+			loadingPercentage = (currentProgress / fileSize) * 100;//workout loaded files as a percentage
+			std::cout << "Loading: " << loadingPercentage << "%" << std::endl;
 		}
 		file.close();//close file
+	}
+
+	float AssetManager::calcFileSize(std::string filename)
+	{
+		std::ifstream tmpFile;
+		std::string tmpLine;//tmpline to work out how many lines in file
+		float fileSize = 0.0f;
+		tmpFile.open(filename);
+		while (std::getline(tmpFile, tmpLine))//while not at end of file 'fileSize' counts up
+		{
+			fileSize++;
+		}
+		std::cout << "File " << filename << " Size: " << fileSize << std::endl;
+		tmpFile.close();
+
+		return fileSize;
+	}
+
+	std::tuple<int, int> AssetManager::calcLimiterPositions(std::string line)
+	{
+		int tlPos = 0, nlPos = 0;
+		for (int i = 0; i < line.size() - 1; i++)//loop through line  character by character
+		{
+			if (line[i] == typeLimiter) // finds first occurrence of type : name breakpoint ':'
+			{
+				tlPos = i;
+			}
+			if (line[i] == nameLimiter) //finds first occurrence of name:value breakpoint '='
+			{
+				nlPos = i;
+			}
+		}
+
+		return { tlPos, nlPos };
+	}
+	std::tuple<std::string, std::string, std::string> AssetManager::seperateLine(std::string line, int tlPos, int nlPos)
+	{
+		std::string type = line;
+		type = type.substr(0, tlPos);//type = start of line to position of type:name breakpoint ':'
+		std::string name = line;
+		name = name.substr(tlPos + 1, (nlPos - tlPos) - 1); //name = characters between ':' and '='
+		std::string value = line;
+		value = value.substr(nlPos + 1, (line.size() - nlPos) - 1); //location = from '=' to end of file
+
+		return { type, name, value };
 	}
 
 

@@ -7,6 +7,7 @@
 #include<SDL_image.h>
 #include<string>
 #include<SDL_mixer.h>
+#include<tuple>
 
 namespace Mer
 {
@@ -49,9 +50,18 @@ namespace Mer
 		void cleanDisplaySettings();
 		void cleanAudioSettings();
 
+		//progress through file functions
+		float calcFileSize(std::string filename);
+
+		//processing files functions
+		std::tuple<int, int> calcLimiterPositions(std::string line);
+		std::tuple<std::string, std::string, std::string> seperateLine(std::string line,int tlPos,int nlPos);
+
 		//breakpoints between types, names and locations/setting value
 		char typeLimiter = ':';
 		char nameLimiter = '=';
+
+		float loadingPercentage = 0.0f;
 
 	};
 }
