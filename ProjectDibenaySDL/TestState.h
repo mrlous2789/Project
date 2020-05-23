@@ -5,6 +5,7 @@
 #include <time.h>
 #include <fstream>
 #include<SDL_image.h>
+#include "AssetManager.h"
 
 namespace Mer
 {
@@ -20,9 +21,12 @@ namespace Mer
 	private:
 		GameDataReF _data;
 
-		
+		AssetManager am;
 		SDL_Renderer* renderer;
 		SDL_Texture* map;
+
+		std::string assetsFile = "./Assets/game_assets_locations.txt";
+
 	};
 }
 

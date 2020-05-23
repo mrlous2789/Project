@@ -8,12 +8,12 @@ namespace Mer
 		_data->window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,NULL);
 		_data->machine.AddState(StateRef(new TestState(this->_data)));
 		_data->running = true;
-
 		this->Run();
 	}
 
 	void Game::Run()
 	{
+
 		Uint32 newTime, frameTime, interpolation;
 		
 		Uint32 currentTime = SDL_GetTicks();
