@@ -1,4 +1,5 @@
 #pragma once
+//include header files
 #include <SDL.h>
 #include "State.h"
 #include "Game.h"
@@ -14,7 +15,8 @@ namespace Mer
 	public:
 		TestState(GameDataReF data);
 
-		void Init();
+		//deafult functions for states
+		void Init(); 
 		void HandleInput();
 		void Update(float dt);
 		void Draw(float dt);

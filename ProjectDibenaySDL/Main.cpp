@@ -14,7 +14,7 @@
 
 int main(int argc, char* args[])
 {
-	Mer::Game();
+	Mer::Game game = Mer::Game();//start game
 
 	return 0;
 }

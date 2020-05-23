@@ -1,4 +1,5 @@
 #pragma once
+//state class 
 namespace Mer
 {
 	class State

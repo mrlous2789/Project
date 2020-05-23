@@ -74,7 +74,6 @@ namespace Mer
 			SDL_RenderCopy(renderer, am.getTexture("map_nations_layer"), &srect1, &drect2);
 			SDL_RenderPresent(renderer);
 		}
-
 	}
 
 	

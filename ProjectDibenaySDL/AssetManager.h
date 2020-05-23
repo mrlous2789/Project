@@ -1,4 +1,5 @@
 #pragma once
+//include header files
 #include<fstream>
 #include<SDL.h>
 #include<iostream>
@@ -12,8 +13,8 @@ namespace Mer
 	class AssetManager
 	{
 	public:
-		AssetManager();
-		~AssetManager() {}
+		AssetManager();    // contructor
+		~AssetManager() {} // destructor
 
 		void LoadTexture(std::string name, std::string filename, SDL_Renderer* renderer);
 		SDL_Texture* getTexture(std::string name);
@@ -34,18 +35,21 @@ namespace Mer
 
 		void CleanUp();
 	private:
-		std::map <std::string, SDL_Texture*> _textures;
+		//maps for assets
+		std::map <std::string, SDL_Texture*> _textures; 
 		std::map <std::string, Mix_Music*> _music;
 		std::map <std::string, Mix_Chunk*> _soundEffects;
 		std::map <std::string, Uint16> _displaySettings;
 		std::map <std::string, Uint16> _audioSettings;
 		
+		//clean assets functions
 		void cleanTextures();
 		void cleanMusic();
 		void cleanSoundEffects();
 		void cleanDisplaySettings();
 		void cleanAudioSettings();
 
+		//breakpoints between types, names and locations/setting value
 		char typeLimiter = ':';
 		char nameLimiter = '=';
 
