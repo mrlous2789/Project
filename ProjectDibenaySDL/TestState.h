@@ -18,13 +18,16 @@ namespace Mer
 		void HandleInput();
 		void Update(float dt);
 		void Draw(float dt);
+		void CleanUp();
 	private:
 		GameDataReF _data;
 
 		AssetManager am;
 		SDL_Renderer* renderer;
 		SDL_Texture* map;
-
+		SDL_Rect srect1;
+		SDL_Rect drect1;
+		SDL_Rect drect2;
 		std::string assetsFile = "./Assets/game_assets_locations.txt";
 
 	};
