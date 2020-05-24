@@ -7,6 +7,7 @@
 #include "StateMachine.h"
 #include "AssetManager.h"
 #include "InputManager.h"
+#include "UIController.h"
 
 namespace Mer
 {
@@ -17,6 +18,7 @@ namespace Mer
 		bool running; //boolean for whether game is running
 		AssetManager settings; //program settings asset manager
 		InputManager input; //input manager
+		UIController ui;
 	};
 
 	typedef std::shared_ptr<GameData> GameDataReF;

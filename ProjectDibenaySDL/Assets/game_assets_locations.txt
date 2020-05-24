@@ -1,5 +1,4 @@
 texture:map_base_layer=./Assets/Map_Files/Map_Base_Layer.png
 texture:map_nations_layer=./Assets/Map_Files/Map_Nations_Layer.png
-texture:test_button=./Assets/UI/Test_Button.png
 music:test_music=./Assets/Audio/Music/Test_Music.wav
 effect:test_effect=./Assets/Audio/Effects/Test_Effect.wav

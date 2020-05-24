@@ -146,6 +146,8 @@ namespace Mer
 	{
 		std::ifstream file;//new file
 
+		this->settingsFile = settingsFile;
+
 		float fileSize = calcFileSize(settingsFile), currentProgress = 0.0f;
 
 		file.open(settingsFile);//open settings file to process
@@ -208,11 +210,11 @@ namespace Mer
 		int tlPos = 0, nlPos = 0;
 		for (int i = 0; i < line.size() - 1; i++)//loop through line  character by character
 		{
-			if (line[i] == typeLimiter) // finds first occurrence of type : name breakpoint ':'
+			if (line[i] == typeLimiter && tlPos == 0) // finds first occurrence of type : name breakpoint ':'
 			{
 				tlPos = i;
 			}
-			if (line[i] == nameLimiter) //finds first occurrence of name:value breakpoint '='
+			if (line[i] == nameLimiter &&  nlPos == 0) //finds first occurrence of name:value breakpoint '='
 			{
 				nlPos = i;
 			}
@@ -288,5 +290,54 @@ namespace Mer
 		}
 		_soundEffects.clear();
 		std::cout << "Sound effects cleared" << std::endl;
+	}
+
+	void AssetManager::SaveSettings()
+	{
+		std::ofstream file;
+		std::string fileOutput;
+		file.open(settingsFile);
+
+		file.clear();
+
+		std::map <std::string, Uint16>::iterator _dsIT = _displaySettings.begin();
+		std::map <std::string, Uint16>::iterator _asIT = _audioSettings.begin();
+
+		while (_asIT != _audioSettings.end())
+		{
+			std::string tmpString = "audio:";
+			tmpString += _asIT->first + "=" + std::to_string(_asIT->second);
+			fileOutput = tmpString + "\n" + fileOutput;
+			_asIT++;
+		}
+
+		while (_dsIT != _displaySettings.end())
+		{
+			std::string tmpString = "display:";
+			tmpString += _dsIT->first + "=" + std::to_string(_dsIT->second);
+			fileOutput = tmpString + "\n" + fileOutput;
+			_dsIT++;
+		}
+
+
+		fileOutput.erase(fileOutput.length() - 1);
+
+		file << fileOutput;
+		file.close();
+	}
+	void AssetManager::ChangeSetting(std::string type, std::string settingName, Uint16 newValue)
+	{
+		if (type == "display")
+		{
+			_displaySettings.at(settingName) = newValue;
+		}
+		else if(type == "audio")
+		{
+			_audioSettings.at(settingName) = newValue;
+		}
+		else
+		{
+			std::cout << "Cannont change setting " << type << "bad setting type" << std::endl;
+		}
 	}
 }

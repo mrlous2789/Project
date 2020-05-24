@@ -147,6 +147,8 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="TestState.cpp" />
+    <ClCompile Include="UIController.cpp" />
+    <ClCompile Include="UIElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h" />
@@ -155,6 +157,8 @@
     <ClInclude Include="State.h" />
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="TestState.h" />
+    <ClInclude Include="UIController.h" />
+    <ClInclude Include="UIElement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

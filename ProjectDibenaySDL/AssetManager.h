@@ -35,6 +35,10 @@ namespace Mer
 		void ProcessSettingsFile(std::string settingsFile);
 
 		void CleanUp();
+
+		void SaveSettings();
+
+		void ChangeSetting(std::string type, std::string settingName, Uint16 newValue);
 	private:
 		//maps for assets
 		std::map <std::string, SDL_Texture*> _textures; 
@@ -62,6 +66,8 @@ namespace Mer
 		char nameLimiter = '=';
 
 		float loadingPercentage = 0.0f;
+
+		std::string settingsFile;
 
 	};
 }

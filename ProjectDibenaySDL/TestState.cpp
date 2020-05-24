@@ -14,6 +14,8 @@ namespace Mer
 		this->renderer = SDL_CreateRenderer(this->_data->window, -1, 0);
 
 		am.ProccessLocationFile(this->renderer, assetsFile);
+		this->_data->ui.setRenderer(renderer);
+		this->_data->ui.ProccessUIFile(uiFile, this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
 		std::cout << "Init" << std::endl;
 
 		
@@ -35,12 +37,6 @@ namespace Mer
 		drect2.w = 640;
 		drect2.h = 360;
 
-		int w, h;
-		SDL_QueryTexture(am.getTexture("test_button"), NULL, NULL, &w, &h);
-		buttonPosRect.x = (this->_data->settings.getDisplaySetting("screen_width") / 2) - (w / 2);
-		buttonPosRect.y = (this->_data->settings.getDisplaySetting("screen_height") / 2) - (h / 2);
-		buttonPosRect.w = w;
-		buttonPosRect.h = h;
 	}
 
 
@@ -62,9 +58,16 @@ namespace Mer
 			case SDL_MOUSEBUTTONDOWN:
 				if (event.button.button == SDL_BUTTON_LEFT)
 				{
-					if (this->_data->input.IsTexturePressed(&buttonPosRect))
+					int size = this->_data->ui.getButtonElementsSize();
+					for (int i = 0; i < size; i++)
 					{
-						std::cout << "button pressed" << std::endl;
+						if (this->_data->input.IsTexturePressed(this->_data->ui.getButtonElementDRect(i)))
+						{
+							lmbPressed = this->_data->ui.getButtonElementName(i);
+							std::cout << lmbPressed << std::endl;
+							break;
+						}
+						
 					}
 				}
 			}
@@ -81,6 +84,32 @@ namespace Mer
 			SDL_DestroyRenderer(renderer);
 			CleanUp();
 		}
+		if (lmbPressed != "")
+		{
+			if (lmbPressed == "test_button_top")
+			{
+				this->_data->ui.changeParentVisibility("test_button_background");
+				lmbPressed = "";
+			}
+			if (lmbPressed == "test_button_med")
+			{
+				this->_data->settings.ChangeSetting("display", "screen_width", 1366);
+				this->_data->settings.ChangeSetting("display", "screen_height", 768);
+				this->_data->settings.SaveSettings();
+			
+				SDL_SetWindowSize(this->_data->window, this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
+				this->_data->ui.signalResolutionChange(this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
+				lmbPressed = "";
+			}
+			if (lmbPressed == "test_button_low")
+			{
+				
+				lmbPressed = "";
+				this->_data->running = false;
+				CleanUp();
+			}
+		}
+		this->_data->ui.ProcessUIChanges();
 	}
 
 
@@ -91,7 +120,7 @@ namespace Mer
 			SDL_RenderClear(renderer);
 			SDL_RenderCopy(renderer, am.getTexture("map_base_layer"), &srect1, &drect1);
 			SDL_RenderCopy(renderer, am.getTexture("map_nations_layer"), &srect1, &drect2);
-			SDL_RenderCopy(renderer, am.getTexture("test_button"), NULL, &buttonPosRect);
+			this->_data->ui.RenderUI();
 			SDL_RenderPresent(renderer);
 		}
 	}
