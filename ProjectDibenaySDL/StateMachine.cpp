@@ -42,9 +42,11 @@ namespace Mer
 				}
 			}
 
+			
 			this->_states.push(std::move(this->_newState));//add new state to top of stack
 			this->_states.top()->Init();//initialise new state
 			this->_isAdding = false;//set _isAdding to false
+			std::cout << "StateMachine: Added new state" << std::endl;
 		}
 	}
 

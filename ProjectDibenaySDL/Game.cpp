@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "TestState.h"
+#include "TestLoadingState.h"
 
 namespace Mer
 {
@@ -14,8 +14,10 @@ namespace Mer
 			Mix_Volume(-1, (_data->settings.getAudioSetting("effect_volume") * _data->settings.getAudioSetting("master_volume")) / 100);
 			//create centered window titled 'Dibenay' with height and width from settings file
 			_data->window = SDL_CreateWindow("Dibenay", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _data->settings.getDisplaySetting("screen_width"), _data->settings.getDisplaySetting("screen_height"), NULL);
+			//create renderer for game
+			_data->renderer = SDL_CreateRenderer(_data->window, -1, 0);
 			//add first state to state machine
-			_data->machine.AddState(StateRef(new TestState(this->_data)));
+			_data->machine.AddState(StateRef(new TestLoadingState(_data)));
 			//sets running to be true in game data
 			_data->running = true;
 			//run program

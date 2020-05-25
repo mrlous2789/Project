@@ -1,0 +1,2 @@
+texture:test_loading_bar=./Assets/Loading_Screen/Test_Loading_Bar.png
+texture:test_loading_bar_outline=./Assets/Loading_Screen/Test_Loading_Bar_Outline.png

@@ -6,15 +6,15 @@ namespace Mer
 	{
 
 	}
-	UIElement::UIElement(std::string name, int textureWidth, int textureHeight, float xPosScale, float yPosScale, std::string type, bool visible, std::string parentName, SDL_Texture* uiTexture, std::string category,int screenWidth, int screenHeight)
+	UIElement::UIElement(std::string name,std::string textureName ,int textureWidth, int textureHeight, float xPosScale, float yPosScale, std::string type, bool visible, std::string parentName, std::string category,int screenWidth, int screenHeight)
 	{
 		this->name = name;
+		this->textureName = textureName;
 		this->type = type;
 		this->textureWidth = textureWidth;
 		this->textureHeight = textureHeight;
 		this->xPosScale = xPosScale;
 		this->yPosScale = yPosScale;
-		this->uiTexture = uiTexture;
 		this->category = category;
 		this->parentName = parentName;
 		this->visible = visible;
@@ -27,14 +27,28 @@ namespace Mer
 		sRect.w = textureWidth;
 		sRect.h = textureHeight;
 
-		std::cout << "Width: " << screenWidth << " Height: " << screenHeight << std::endl;
-
 		dRect.x = (screenWidth * xPosScale) - (textureWidth / 2);
 		dRect.y = (screenHeight * yPosScale) - (textureHeight / 2);
 		dRect.w = textureWidth;
 		dRect.h = textureHeight;
 
-		std::cout << dRect.x << " " << dRect.y << std::endl;
+		if (dRect.x < 0)
+		{
+			dRect.x = 0;
+		}
+		if (dRect.y < 0)
+		{
+			dRect.y = 0;
+		}
+		if (dRect.x  + textureWidth > screenWidth)
+		{
+			dRect.x = screenWidth - textureWidth;
+		}
+		if (dRect.y + textureHeight > screenHeight)
+		{
+			dRect.y = screenHeight - textureHeight;
+		}
+
 	}
 
 	std::string UIElement::getName()
@@ -49,6 +63,14 @@ namespace Mer
 	{
 		return type;
 	}
+	std::string UIElement::getCategory()
+	{
+		return category;
+	}
+	std::string UIElement::getTextureName()
+	{
+		return textureName;
+	}
 
 	SDL_Rect* UIElement::getSRect()
 	{
@@ -57,11 +79,6 @@ namespace Mer
 	SDL_Rect* UIElement::getDRect()
 	{
 		return &dRect;
-	}
-
-	SDL_Texture* UIElement::getTexture()
-	{
-		return this->uiTexture;
 	}
 
 	bool UIElement::getVisible()

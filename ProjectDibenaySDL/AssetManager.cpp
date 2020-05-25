@@ -91,7 +91,6 @@ namespace Mer
 		return this->_audioSettings.at(name);
 	}
 
-
 	void AssetManager::ProccessLocationFile(SDL_Renderer* renderer, std::string locationsFile)
 	{
 		std::ifstream file;//new file
@@ -101,6 +100,7 @@ namespace Mer
 		file.open(locationsFile);//open file that will be proccessed
 
 		std::string line;//line variable
+
 
 		while (std::getline(file, line))//while not at end of file
 		{
@@ -137,6 +137,58 @@ namespace Mer
 			}
 			loadingPercentage = (currentProgress / fileSize) * 100;//workout loaded files as a percentage
 			std::cout << "Loading: " << loadingPercentage << "%" << std::endl;
+		}
+		file.close();//close file
+	}
+
+	void AssetManager::ProccessLocationFileWithLoadingBar(SDL_Renderer* renderer, std::string locationsFile, std::map <std::string, SDL_Texture*> _loadingScreen, int screenWidth, int screenHeight)
+	{
+		std::ifstream file;//new file
+
+		float fileSize = calcFileSize(locationsFile), currentProgress = 0.0f;
+
+		file.open(locationsFile);//open file that will be proccessed
+
+		std::string line;//line variable
+
+		RenderLoadingBar(loadingPercentage, renderer, screenWidth, screenHeight, _loadingScreen);
+
+		while (std::getline(file, line))//while not at end of file
+		{
+			currentProgress++;//count up current progress through file
+			std::string type, name, location;//string variables to store important parts of line
+
+			int typeLimiterPos, nameLimiterPos;
+			std::tie(typeLimiterPos, nameLimiterPos) = calcLimiterPositions(line);//position variables of breakpoints in line
+
+			if (typeLimiterPos == 0 || nameLimiterPos == 0)//if breakpoints werent found output error to console
+			{
+				std::cout << line << " is a bad line" << std::endl;
+			}
+			else//seperate out line to important bits
+			{
+				std::tie(type, name, location) = seperateLine(line, typeLimiterPos, nameLimiterPos);
+
+				if (type == "texture")//if type is texture load to texture map
+				{
+					LoadTexture(name, location, renderer);
+				}
+				else if (type == "music")//if type is music load to music map
+				{
+					LoadMusic(name, location);
+				}
+				else if (type == "effect")//if type is effect load to sound effects  map
+				{
+					LoadEffect(name, location);
+				}
+				else//else output error
+				{
+					std::cout << type << " Bad Type" << std::endl;
+				}
+			}
+			loadingPercentage = (currentProgress / fileSize) * 100;//workout loaded files as a percentage
+			std::cout << "Loading: " << loadingPercentage << "%" << std::endl;
+			RenderLoadingBar(loadingPercentage, renderer, screenWidth, screenHeight, _loadingScreen);
 		}
 		file.close();//close file
 	}
@@ -339,5 +391,35 @@ namespace Mer
 		{
 			std::cout << "Cannont change setting " << type << "bad setting type" << std::endl;
 		}
+	}
+
+	void AssetManager::RenderLoadingBar(float loadPercent, SDL_Renderer* renderer, int screenWidth, int screenHeight, std::map <std::string, SDL_Texture*> _loadingScreen)
+	{
+		if (screenWidth != 0 && screenHeight !=0)
+		{
+			SDL_Rect sRect, dRect, sRectOutline, dRectOutline;
+			int bar_width;
+			int w = 520, h = 70;
+			
+			dRect.x = screenWidth * 0.5 - (w / 2); dRectOutline.x = screenWidth * 0.5 - (w / 2);
+			dRect.y = screenHeight * 0.8 - (h / 2); dRectOutline.y = screenHeight * 0.8 - (h / 2);
+
+			dRectOutline.w = w;	dRectOutline.h = h; sRectOutline.w = w; sRectOutline.h = h;
+
+			sRect.x = 0; sRect.y = 0; sRectOutline.x = 0; sRectOutline.y = 0;
+			sRect.h = h; dRect.h = h;
+			bar_width = w * (loadPercent / 100);
+			sRect.w = bar_width; dRect.w = bar_width;
+
+			SDL_RenderClear(renderer);
+			SDL_RenderCopy(renderer, _loadingScreen.at("test_loading_bar"), &sRect, &dRect);
+			SDL_RenderCopy(renderer, _loadingScreen.at("test_loading_bar_outline"), &sRectOutline, &dRectOutline);
+			SDL_RenderPresent(renderer);
+		}
+
+	}
+	std::map <std::string, SDL_Texture*> AssetManager::getTextureMap()
+	{
+		return _textures;
 	}
 }

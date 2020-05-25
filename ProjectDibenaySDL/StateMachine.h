@@ -2,6 +2,7 @@
 //include header files
 #include<Memory>
 #include<stack>
+#include <iostream>
 
 #include "State.h"
 

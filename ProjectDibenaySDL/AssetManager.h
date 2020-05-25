@@ -32,6 +32,7 @@ namespace Mer
 		Uint16 getAudioSetting(std::string name);
 
 		void ProccessLocationFile(SDL_Renderer* renderer, std::string locationsFile);
+		void ProccessLocationFileWithLoadingBar(SDL_Renderer* renderer, std::string locationsFile, std::map <std::string, SDL_Texture*> _loadingScreen,int screenWidth = 0,  int screenHeight = 0);
 		void ProcessSettingsFile(std::string settingsFile);
 
 		void CleanUp();
@@ -39,6 +40,8 @@ namespace Mer
 		void SaveSettings();
 
 		void ChangeSetting(std::string type, std::string settingName, Uint16 newValue);
+
+		std::map<std::string, SDL_Texture*> getTextureMap();
 	private:
 		//maps for assets
 		std::map <std::string, SDL_Texture*> _textures; 
@@ -68,6 +71,10 @@ namespace Mer
 		float loadingPercentage = 0.0f;
 
 		std::string settingsFile;
+
+		void RenderLoadingBar(float loadPercent, SDL_Renderer* renderer, int screenWidth, int screenHeight, std::map <std::string, SDL_Texture*> _loadingScreen);
+		
+
 
 	};
 }

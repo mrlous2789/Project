@@ -39,6 +39,12 @@
     <ClCompile Include="UIController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestLoadingState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMapController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.h">
@@ -63,6 +69,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UIController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLoadingState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMapController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

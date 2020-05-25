@@ -3,40 +3,25 @@
 
 namespace Mer
 {
-	TestState::TestState(GameDataReF data) : _data(data)
+	TestState::TestState(GameDataReF data, AssetManager &am) : _data(data)
 	{
-		
+		_am = am;
+		std::cout << "new test state" << std::endl;
 	}
 
 
 	void TestState::Init()
 	{		
-		this->renderer = SDL_CreateRenderer(this->_data->window, -1, 0);
+		std::cout << "Test State Started " << std::endl;
+		ui.initUI(this->_data->renderer , &_am);
+		ui.ProccessUIFile(uiFile, this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
 
-		am.ProccessLocationFile(this->renderer, assetsFile);
-		this->_data->ui.setRenderer(renderer);
-		this->_data->ui.ProccessUIFile(uiFile, this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
-		std::cout << "Init" << std::endl;
-
+		gmc.Init(&_am,this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"), this->_data->renderer);
 		
-		Mix_PlayMusic(am.getMusic("test_music"), -1);
-		//Mix_PlayChannel(-1, am.getEffect("test_effect"), 1);
+		Mix_PlayMusic(_am.getMusic("test_music"), -1);
+		//Mix_PlayChannel(-1, _am.getEffect("test_effect"), 1);
 
-		srect1.x = 0;
-		srect1.y = 0;
-		srect1.w = 640;
-		srect1.h = 360;
-
-		drect1.x = 0;
-		drect1.y = 0;
-		drect1.w = 640;
-		drect1.h = 360;
-
-		drect2.x = 640;
-		drect2.y = 0;
-		drect2.w = 640;
-		drect2.h = 360;
-
+		std::cout << "TestState: Init" << std::endl;
 	}
 
 
@@ -58,19 +43,35 @@ namespace Mer
 			case SDL_MOUSEBUTTONDOWN:
 				if (event.button.button == SDL_BUTTON_LEFT)
 				{
-					int size = this->_data->ui.getButtonElementsSize();
+					int size = ui.getButtonElementsSize();
 					for (int i = 0; i < size; i++)
 					{
-						if (this->_data->input.IsTexturePressed(this->_data->ui.getButtonElementDRect(i)))
+						if (this->_data->input.IsTexturePressed(ui.getButtonElementDRect(i)))
 						{
-							lmbPressed = this->_data->ui.getButtonElementName(i);
+							lmbPressed = ui.getButtonElementName(i);
 							std::cout << lmbPressed << std::endl;
 							break;
-						}
-						
+						}						
 					}
 				}
+				break;
+			case SDL_MOUSEWHEEL:
+				if (event.wheel.y > 0)
+				{
+					std::cout << "Zooming in " << std::endl;
+					gmc.setZoomIn(true);
+					gmc.setZoomOut(false);
+				}
+				else if (event.wheel.y < 0)
+				{
+					std::cout << "Zooming out" << std::endl;
+					gmc.setZoomOut(true); 
+					gmc.setZoomIn(false);
+				}
+				break;
 			}
+			
+				
 		}
 
 
@@ -81,35 +82,41 @@ namespace Mer
 	{
 		if (!this->_data->running)
 		{
-			SDL_DestroyRenderer(renderer);
+			SDL_DestroyRenderer(this->_data->renderer);
 			CleanUp();
 		}
 		if (lmbPressed != "")
 		{
 			if (lmbPressed == "test_button_top")
 			{
-				this->_data->ui.changeParentVisibility("test_button_background");
+				ui.changeParentVisibility("test_button_background_right");
 				lmbPressed = "";
 			}
-			if (lmbPressed == "test_button_med")
+			else if (lmbPressed == "test_button_med")
 			{
 				this->_data->settings.ChangeSetting("display", "screen_width", 1366);
 				this->_data->settings.ChangeSetting("display", "screen_height", 768);
 				this->_data->settings.SaveSettings();
 			
 				SDL_SetWindowSize(this->_data->window, this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
-				this->_data->ui.signalResolutionChange(this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
+				ui.signalResolutionChange(this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
+				gmc.UpdateScreenResolution(this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
 				lmbPressed = "";
 			}
-			if (lmbPressed == "test_button_low")
-			{
-				
+			else if (lmbPressed == "test_button_low")
+			{				
 				lmbPressed = "";
 				this->_data->running = false;
 				CleanUp();
 			}
+			else if (lmbPressed == "test_button_top_right")
+			{
+				lmbPressed = "";
+				ui.changeParentVisibility("test_button_background");
+			}
 		}
-		this->_data->ui.ProcessUIChanges();
+		gmc.UpdateMap();
+		ui.ProcessUIChanges();
 	}
 
 
@@ -117,17 +124,17 @@ namespace Mer
 	{
 		if (this->_data->running)
 		{
-			SDL_RenderClear(renderer);
-			SDL_RenderCopy(renderer, am.getTexture("map_base_layer"), &srect1, &drect1);
-			SDL_RenderCopy(renderer, am.getTexture("map_nations_layer"), &srect1, &drect2);
-			this->_data->ui.RenderUI();
-			SDL_RenderPresent(renderer);
+			SDL_RenderClear(this->_data->renderer);
+			gmc.RenderMap();
+			ui.RenderUI();
+
+			SDL_RenderPresent(this->_data->renderer);
 		}
 	}
 
 	
 	void TestState::CleanUp()
 	{
-		am.CleanUp();
+		_am.CleanUp();
 	}
 }

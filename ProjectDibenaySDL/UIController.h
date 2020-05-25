@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <SDL_image.h>
+#include "AssetManager.h"
 
 namespace Mer
 {
@@ -16,7 +17,7 @@ namespace Mer
 
 		void ProcessUIChanges();
 		
-		void setRenderer(SDL_Renderer* &renderer);
+		void initUI(SDL_Renderer*& renderer, AssetManager *_am);
 
 		void RenderUI();
 
@@ -37,6 +38,8 @@ namespace Mer
 		bool _visibilityChange;
 		bool _resolutionChange;
 
+		AssetManager *am;
+
 		void AddElement(std::string name, std::string textureName, int textureWidth, int textureHeight, float xPosScale, float yPosScale, std::string type, bool visible, std::string parentName, std::string category,int screenWidth, int screenHeight);
 		int CtI(std::string input);
 		bool CtB(std::string input);
@@ -44,6 +47,8 @@ namespace Mer
 
 		int screenWidth;
 		int screenHeight;
+
+		void UpdateChildrenVisiblity();
 
 		SDL_Renderer* currentRenderer;
 

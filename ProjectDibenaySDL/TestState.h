@@ -7,13 +7,15 @@
 #include <fstream>
 #include<SDL_image.h>
 #include "AssetManager.h"
+#include "UIController.h"
+#include "GameMapController.h"
 
 namespace Mer
 {
 	class TestState : public State
 	{
 	public:
-		TestState(GameDataReF data);
+		TestState(GameDataReF data, AssetManager &am);
 
 		//deafult functions for states
 		void Init(); 
@@ -24,14 +26,16 @@ namespace Mer
 	private:
 		GameDataReF _data;
 
-		AssetManager am;
-		SDL_Renderer* renderer;
+		AssetManager _am;
+		GameMapController gmc;
 		SDL_Texture* map;
 		SDL_Rect srect1;
 		SDL_Rect drect1;
 		SDL_Rect drect2;
 		std::string assetsFile = "./Assets/game_assets_locations.txt";
 		std::string uiFile = "./Assets/ui_game.txt";
+
+		UIController ui;
 
 		std::string lmbPressed = "";
 		std::string rmnPressed = "";

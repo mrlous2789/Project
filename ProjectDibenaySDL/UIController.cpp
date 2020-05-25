@@ -82,18 +82,14 @@ namespace Mer
 
 			AddElement(name, textureName, CtI(textureWidthS), CtI(textureHeightS), CtF(xPosScaleS), CtF(yPosScaleS), type, CtB(visibleS), parentName, category,screenWidth, screenHeight);
 		}
+
+		UpdateChildrenVisiblity();
 	}
 	void UIController::ProcessUIChanges()
 	{
 		if (_visibilityChange)
 		{
-			for (int i = 0; i < uiElementsB.size(); i++)
-			{
-				if (uiElementsI[getParentByName((uiElementsB[i].getParentName()))].getVisible() != uiElementsB[i].getVisible())
-				{
-					uiElementsB[i].changeVisiblity();
-				}
-			}
+			UpdateChildrenVisiblity();
 			_visibilityChange = false;
 		}
 		if (_resolutionChange)
@@ -113,15 +109,14 @@ namespace Mer
 
 	void UIController::AddElement(std::string name, std::string textureName, int textureWidth, int textureHeight, float xPosScale, float yPosScale, std::string type, bool visible, std::string parentName, std::string category,int screenWidth, int screenHeight)
 	{
-		SDL_Texture* tex = IMG_LoadTexture(currentRenderer, textureName.c_str());
 		if (category == "action_button")
 		{
-			uiElementsB.push_back(UIElement(name, textureWidth, textureHeight, xPosScale, yPosScale, type, visible, parentName, tex, category, screenWidth, screenHeight));
+			uiElementsB.push_back(UIElement(name, textureName ,textureWidth, textureHeight, xPosScale, yPosScale, type, visible, parentName, category, screenWidth, screenHeight));
 			uiElementsB.back().CalculateRects(screenWidth, screenHeight);
 		}
 		else if (category == "ui_image")
 		{
-			uiElementsI.push_back(UIElement(name, textureWidth, textureHeight, xPosScale, yPosScale, type, visible, parentName, tex, category, screenWidth, screenHeight));
+			uiElementsI.push_back(UIElement(name, textureName,textureWidth, textureHeight, xPosScale, yPosScale, type, visible, parentName, category, screenWidth, screenHeight));
 			uiElementsI.back().CalculateRects(screenWidth, screenHeight);
 		}
 		else
@@ -138,11 +133,17 @@ namespace Mer
 	{
 		if (input == "1")
 		{
+			std::cout << input << std::endl;
 			return true;
+		}
+		else if(input == "0")
+		{
+			return false;
 		}
 		else
 		{
-			false;
+			std::cout << "bad visiiblity input setting to false " << std::endl;
+			return false;
 		}
 	}
 	float UIController::CtF(std::string input)
@@ -150,9 +151,10 @@ namespace Mer
 		return std::stof(input);
 	}
 
-	void UIController::setRenderer(SDL_Renderer* &renderer)
+	void UIController::initUI(SDL_Renderer* &renderer, AssetManager *_am)
 	{
 		currentRenderer = renderer;
+		am = _am;
 	}
 	void UIController::RenderUI()
 	{
@@ -160,14 +162,14 @@ namespace Mer
 		{
 			if (uiElementsI[i].getVisible())
 			{
-				SDL_RenderCopy(currentRenderer, uiElementsI[i].getTexture(), uiElementsI[i].getSRect(), uiElementsI[i].getDRect());
+				SDL_RenderCopy(currentRenderer, am->getTexture(uiElementsI[i].getTextureName()), uiElementsI[i].getSRect(), uiElementsI[i].getDRect());
 			}
 		}
 		for (int i = 0; i < uiElementsB.size(); i++)
 		{
 			if (uiElementsB[i].getVisible())
 			{
-				SDL_RenderCopy(currentRenderer, uiElementsB[i].getTexture(), uiElementsB[i].getSRect(), uiElementsB[i].getDRect());
+				SDL_RenderCopy(currentRenderer, am->getTexture(uiElementsB[i].getTextureName()), uiElementsB[i].getSRect(), uiElementsB[i].getDRect());
 			}
 		}
 	}
@@ -228,5 +230,17 @@ namespace Mer
 		_resolutionChange = true;
 		this->screenWidth = screenWidth;
 		this->screenHeight = screenHeight;
+	}
+	void UIController::UpdateChildrenVisiblity()
+	{
+		for (int i = 0; i < uiElementsB.size(); i++)
+		{
+			if (uiElementsI[getParentByName((uiElementsB[i].getParentName()))].getVisible() != uiElementsB[i].getVisible())
+			{
+				std::cout << "Parent Visiblity " << uiElementsI[getParentByName((uiElementsB[i].getParentName()))].getVisible() << " Child visibility " << uiElementsB[i].getVisible() << std::endl;
+				std::cout << "Visiblilty Changed " << uiElementsB[i].getName() << std::endl;
+				uiElementsB[i].changeVisiblity();
+			}
+		}
 	}
 }
