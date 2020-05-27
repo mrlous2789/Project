@@ -6,15 +6,15 @@ namespace Mer
 	{
 
 	}
-	UIElement::UIElement(std::string name,std::string textureName ,int textureWidth, int textureHeight, float xPosScale, float yPosScale, std::string type, bool visible, std::string parentName, std::string category,int screenWidth, int screenHeight)
+	UIElement::UIElement(std::string name,std::string textureName ,int textureWidth, int textureHeight, int xPos, int yPos, std::string type, bool visible, std::string parentName, std::string category,int screenWidth, int screenHeight)
 	{
 		this->name = name;
 		this->textureName = textureName;
 		this->type = type;
 		this->textureWidth = textureWidth;
 		this->textureHeight = textureHeight;
-		this->xPosScale = xPosScale;
-		this->yPosScale = yPosScale;
+		this->xPos = xPos;
+		this->yPos = yPos;
 		this->category = category;
 		this->parentName = parentName;
 		this->visible = visible;
@@ -27,8 +27,10 @@ namespace Mer
 		sRect.w = textureWidth;
 		sRect.h = textureHeight;
 
-		dRect.x = (screenWidth * xPosScale) - (textureWidth / 2);
-		dRect.y = (screenHeight * yPosScale) - (textureHeight / 2);
+		widthScale = screenWidth / defaultScreenWidth; heightScale = screenHeight / defaultScreenHeight;
+
+		dRect.x = xPos * widthScale;
+		dRect.y = yPos * heightScale;
 		dRect.w = textureWidth;
 		dRect.h = textureHeight;
 
@@ -48,6 +50,9 @@ namespace Mer
 		{
 			dRect.y = screenHeight - textureHeight;
 		}
+
+		
+		std::cout << "UIElement: " << name << " X = " << dRect.x << " Y = " << dRect.y << std::endl;
 
 	}
 

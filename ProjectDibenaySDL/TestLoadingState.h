@@ -20,9 +20,9 @@ namespace Mer
 		AssetManager am;
 		AssetManager tmpAM;
 
-		std::string loadingAssetsFile = "./Assets/loading_screen_assets.txt";
+		std::string loadingAssetsFile = LOADING_SCREEN_ASSETS;
 
-		std::string assetsFile = "./Assets/game_assets_locations.txt";
+		std::string assetsFile = GAME_ASSETS;
 	};
 }
 

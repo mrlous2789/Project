@@ -29,16 +29,13 @@ namespace Mer
 		AssetManager _am;
 		GameMapController gmc;
 		SDL_Texture* map;
-		SDL_Rect srect1;
-		SDL_Rect drect1;
-		SDL_Rect drect2;
-		std::string assetsFile = "./Assets/game_assets_locations.txt";
-		std::string uiFile = "./Assets/ui_game.txt";
+
+		std::string uiFile = GAME_UI;
 
 		UIController ui;
 
 		std::string lmbPressed = "";
-		std::string rmnPressed = "";
+		std::string rmbPressed = "";
 
 	};
 }

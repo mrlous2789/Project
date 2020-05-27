@@ -1,0 +1,6 @@
+display:screen_width=1280
+display:screen_height=720
+display:display_mode=0
+audio:music_volume=10
+audio:master_volume=0
+audio:effect_volume=100

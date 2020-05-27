@@ -1,0 +1,5 @@
+texture:apply_cancel_button=./Assets/Settings_Screen/Apply_Cancel_Button.png
+texture:selected_category_panel=./Assets/Settings_Screen/Selected_Category_Panel.png
+texture:setting_name_panel=./Assets/Settings_Screen/Setting_Name_Panel.png
+texture:setting_text_panel=./Assets/Settings_Screen/Setting_Text_Panel.png
+texture:setting_main_panel=./Assets/Settings_Screen/Settings_Main_Panel.png

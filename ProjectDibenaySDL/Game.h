@@ -7,6 +7,7 @@
 #include "StateMachine.h"
 #include "AssetManager.h"
 #include "InputManager.h"
+#include "DEFINITIONS.h"
 
 namespace Mer
 {
@@ -32,7 +33,7 @@ namespace Mer
 		
 		GameDataReF _data = std::make_shared<GameData>();
 
-		std::string settingsFile = "./Assets/settings.txt"; //settings file location
+		std::string settingsFile = SETTINGS; //settings file location
 
 		void Run();
 		bool InitSDL();

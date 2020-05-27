@@ -40,7 +40,7 @@ namespace Mer
 
 		AssetManager *am;
 
-		void AddElement(std::string name, std::string textureName, int textureWidth, int textureHeight, float xPosScale, float yPosScale, std::string type, bool visible, std::string parentName, std::string category,int screenWidth, int screenHeight);
+		void AddElement(std::string name, std::string textureName, int textureWidth, int textureHeight, int xPos, int yPos, std::string type, bool visible, std::string parentName, std::string category,int screenWidth, int screenHeight);
 		int CtI(std::string input);
 		bool CtB(std::string input);
 		float CtF(std::string input);

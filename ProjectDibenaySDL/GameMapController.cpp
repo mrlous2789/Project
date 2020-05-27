@@ -55,7 +55,7 @@ namespace Mer
 
 		mapSRect.x = 0; mapSRect.y = 0; mapSRect.w = screenWidth * zoomLevel; mapSRect.h = screenHeight * zoomLevel;
 
-		
+		std::cout << "map width = " << mapSRect.w << "map height = " << mapSRect.h << std::endl;
 		
 	}
 
@@ -93,6 +93,8 @@ namespace Mer
 
 		zoomLevel = minZoom;
 		zoomSpeed = minZoom / 10.0f;
+
+		UpdateMapRect();
 
 		std::cout << "GMC: mapw / screenwidth = " << tmp << ", maph / screenheight = " << tmp2 <<std::endl;
 		std::cout << "GMC: minZoom = " << minZoom << std::endl;

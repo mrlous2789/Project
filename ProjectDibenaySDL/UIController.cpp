@@ -17,8 +17,8 @@ namespace Mer
 
 		while (std::getline(file,line))
 		{
-			std::string name, textureName, textureWidthS, textureHeightS, xPosScaleS, yPosScaleS, type, visibleS, parentName, category;
-			int nameBr = 0, textureNameBr = 0, textureWidthSBr = 0, textureHeightSBr = 0, xPosScaleSBr = 0, yPosScaleSBr = 0, typeBr = 0, visibleSBr= 0, categoryBr = 0;
+			std::string name, textureName, textureWidthS, textureHeightS, xPosS, yPosS, type, visibleS, parentName, category;
+			int nameBr = 0, textureNameBr = 0, textureWidthSBr = 0, textureHeightSBr = 0, xPosSBr = 0, yPosSBr = 0, typeBr = 0, visibleSBr= 0, categoryBr = 0;
 			for (int i = 0; i < line.size() - 1; i++)
 			{
 				if (line[i] == ':')
@@ -39,13 +39,13 @@ namespace Mer
 					{
 						textureHeightSBr = i;
 					}
-					else if (xPosScaleSBr == 0)
+					else if (xPosSBr == 0)
 					{
-						xPosScaleSBr = i;
+						xPosSBr = i;
 					}
-					else if (yPosScaleSBr == 0)
+					else if (yPosSBr == 0)
 					{
-						yPosScaleSBr = i;
+						yPosSBr = i;
 					}
 					else if (typeBr == 0)
 					{
@@ -66,9 +66,9 @@ namespace Mer
 			textureName = line.substr(nameBr + 1, (textureNameBr - nameBr) - 1);
 			textureWidthS = line.substr(textureNameBr + 1, (textureWidthSBr - textureNameBr) - 1);
 			textureHeightS = line.substr(textureWidthSBr + 1, (textureHeightSBr - textureWidthSBr) - 1);
-			xPosScaleS = line.substr(textureHeightSBr + 1, (xPosScaleSBr - textureHeightSBr) - 1);
-			yPosScaleS = line.substr(xPosScaleSBr + 1, (yPosScaleSBr - xPosScaleSBr) - 1);
-			type = line.substr(yPosScaleSBr + 1, (typeBr - yPosScaleSBr) - 1);
+			xPosS = line.substr(textureHeightSBr + 1, (xPosSBr - textureHeightSBr) - 1);
+			yPosS = line.substr(xPosSBr + 1, (yPosSBr - xPosSBr) - 1);
+			type = line.substr(yPosSBr + 1, (typeBr - yPosSBr) - 1);
 			visibleS = line.substr(typeBr + 1, (visibleSBr - typeBr) - 1);
 			category = line.substr(visibleSBr + 1, (categoryBr - visibleSBr) - 1);
 			if (line.back() == ' ')
@@ -80,7 +80,7 @@ namespace Mer
 				parentName = line.substr(categoryBr + 1, (line.size() - categoryBr) - 1);
 			}
 
-			AddElement(name, textureName, CtI(textureWidthS), CtI(textureHeightS), CtF(xPosScaleS), CtF(yPosScaleS), type, CtB(visibleS), parentName, category,screenWidth, screenHeight);
+			AddElement(name, textureName, CtI(textureWidthS), CtI(textureHeightS), CtI(xPosS), CtI(yPosS), type, CtB(visibleS), parentName, category,screenWidth, screenHeight);
 		}
 
 		UpdateChildrenVisiblity();
@@ -107,16 +107,16 @@ namespace Mer
 
 	}
 
-	void UIController::AddElement(std::string name, std::string textureName, int textureWidth, int textureHeight, float xPosScale, float yPosScale, std::string type, bool visible, std::string parentName, std::string category,int screenWidth, int screenHeight)
+	void UIController::AddElement(std::string name, std::string textureName, int textureWidth, int textureHeight, int xPos, int yPos, std::string type, bool visible, std::string parentName, std::string category,int screenWidth, int screenHeight)
 	{
 		if (category == "action_button")
 		{
-			uiElementsB.push_back(UIElement(name, textureName ,textureWidth, textureHeight, xPosScale, yPosScale, type, visible, parentName, category, screenWidth, screenHeight));
+			uiElementsB.push_back(UIElement(name, textureName ,textureWidth, textureHeight, xPos, yPos, type, visible, parentName, category, screenWidth, screenHeight));
 			uiElementsB.back().CalculateRects(screenWidth, screenHeight);
 		}
 		else if (category == "ui_image")
 		{
-			uiElementsI.push_back(UIElement(name, textureName,textureWidth, textureHeight, xPosScale, yPosScale, type, visible, parentName, category, screenWidth, screenHeight));
+			uiElementsI.push_back(UIElement(name, textureName,textureWidth, textureHeight, xPos, yPos, type, visible, parentName, category, screenWidth, screenHeight));
 			uiElementsI.back().CalculateRects(screenWidth, screenHeight);
 		}
 		else
