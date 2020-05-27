@@ -1,8 +1,8 @@
-test_button_background:test_button_background:200:250:526:415:main_menu:1:ui_image: 
+test_button_background:test_button_background:200:250:576:540:main_menu:1:ui_image: 
 test_button_top:test_button:100:50:576:432:main_menu:1:action_button:test_button_background
 test_button_med:test_button:100:50:576:540:main_menu:1:action_button:test_button_background
 test_button_low:test_button:100:50:576:648:main_menu:1:action_button:test_button_background
-test_button_background_right:test_button_background:200:250:1294:415:main_menu:1:ui_image: 
+test_button_background_right:test_button_background:200:250:1344:540:main_menu:1:ui_image: 
 test_button_low_right:test_button:100:50:1344:648:main_menu:0:action_button:test_button_background_right
 test_button_med_right:test_button:100:50:1344:540:main_menu:0:action_button:test_button_background_right
 test_button_top_right:test_button:100:50:1344:432:main_menu:0:action_button:test_button_background_right

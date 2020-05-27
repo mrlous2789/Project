@@ -18,8 +18,13 @@ namespace Mer
 		AssetManager _mapFiles;
 		bool zoomin;
 		bool zoomout;
+		bool zoomInFalloff = false;
+		bool zoomOutFalloff = false;
+		float falloff = 0.5f;
+		float falloffSpeed;
 		float zoomSpeed = 0.1f;
 		float zoomLevel = 1.0f;
+		float currentFalloff = 0.0f;
 
 		void ProcessZoomIn();
 		void ProcessZoomOut();
@@ -38,6 +43,7 @@ namespace Mer
 
 		float maxZoom = 2.0f;
 		float minZoom = 1.0f;
+
 	};
 }
 

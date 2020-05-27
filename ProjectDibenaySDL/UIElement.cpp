@@ -29,8 +29,8 @@ namespace Mer
 
 		widthScale = screenWidth / defaultScreenWidth; heightScale = screenHeight / defaultScreenHeight;
 
-		dRect.x = xPos * widthScale;
-		dRect.y = yPos * heightScale;
+		dRect.x = xPos * widthScale - (textureWidth / 2);
+		dRect.y = yPos * heightScale - (textureHeight / 2);
 		dRect.w = textureWidth;
 		dRect.h = textureHeight;
 

@@ -15,27 +15,59 @@ namespace Mer
 	}
 	void GameMapController::UpdateMap()
 	{
-		if (zoomin)
+		if (zoomin || zoomInFalloff)
 		{
 			ProcessZoomIn();
 		}
-		if (zoomout)
+		if (zoomout || zoomOutFalloff)
 		{
 			ProcessZoomOut();
 		}
 	}
 	void GameMapController::ProcessZoomIn()
 	{
-		zoomLevel -= zoomSpeed;
-		if (zoomLevel < minZoom)
+		if (!zoomin)
 		{
-			zoomLevel = minZoom;
+			zoomLevel -= zoomSpeed;
+			if (zoomLevel < minZoom)
+			{
+				zoomLevel = minZoom;
+			}
+			UpdateMapRect();
+			currentFalloff += zoomSpeed;
+			if (currentFalloff > falloff)
+			{
+				zoomInFalloff = false;
+			}
 		}
-		UpdateMapRect();
-		zoomin = false;
+		else
+		{
+			zoomLevel -= zoomSpeed;
+			if (zoomLevel < minZoom)
+			{
+				zoomLevel = minZoom;
+			}
+			UpdateMapRect();
+			zoomin = false;
+		}
+
 	}
 	void GameMapController::ProcessZoomOut()
 	{
+		if (!zoomout)
+		{
+			zoomLevel += zoomSpeed;
+			if (zoomLevel > maxZoom)
+			{
+				zoomLevel = maxZoom;
+			}
+			UpdateMapRect();
+			currentFalloff += zoomSpeed;
+			if (currentFalloff > falloff)
+			{
+				zoomOutFalloff = false;
+			}
+		}
 		zoomLevel += zoomSpeed;
 
 		if (zoomLevel > maxZoom )
@@ -55,7 +87,7 @@ namespace Mer
 
 		mapSRect.x = 0; mapSRect.y = 0; mapSRect.w = screenWidth * zoomLevel; mapSRect.h = screenHeight * zoomLevel;
 
-		std::cout << "map width = " << mapSRect.w << "map height = " << mapSRect.h << std::endl;
+		std::cout << "GMC: map width = " << mapSRect.w << " map height = " << mapSRect.h << std::endl;
 		
 	}
 
@@ -65,11 +97,11 @@ namespace Mer
 	}
 	void GameMapController::setZoomIn(bool set)
 	{
-		zoomin = set;
+		zoomin = set; zoomInFalloff = set; currentFalloff = 0.0f;
 	}
 	void GameMapController::setZoomOut(bool set)
 	{
-		zoomout = set;
+		zoomout = set; zoomOutFalloff = set; currentFalloff = 0.0f;
 	}
 
 	void GameMapController::UpdateScreenResolution(int screenWidth, int screenHeight)
