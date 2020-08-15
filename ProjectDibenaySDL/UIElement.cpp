@@ -50,10 +50,6 @@ namespace Mer
 		{
 			dRect.y = screenHeight - textureHeight;
 		}
-
-		
-		std::cout << "UIElement: " << name << " X = " << dRect.x << " Y = " << dRect.y << std::endl;
-
 	}
 
 	std::string UIElement::getName()
@@ -96,12 +92,10 @@ namespace Mer
 		if (visible)
 		{
 			visible = false;
-			std::cout << name <<" hidden" << std::endl;
 		}
 		else
 		{
 			visible = true;
-			std::cout << name << " visible" << std::endl;
 		}
 	}
 }

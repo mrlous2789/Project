@@ -18,8 +18,12 @@ namespace Mer
 		~AssetManager() {} // destructor
 
 		void LoadTexture(std::string name, std::string filename, SDL_Renderer* renderer);
+		void LoadTexture(std::string name, SDL_Renderer* renderer, SDL_Surface* surface);
 		SDL_Texture* getTexture(std::string name);
 
+		void LoadSurface(std::string, std::string filename);
+		SDL_Surface* getSurface(std::string name);
+		
 		void LoadMusic(std::string name, std::string filename);
 		Mix_Music* getMusic(std::string name);
 
@@ -44,6 +48,7 @@ namespace Mer
 		std::map<std::string, SDL_Texture*> getTextureMap();
 	private:
 		//maps for assets
+		std::map <std::string, SDL_Surface*> _surfaces;
 		std::map <std::string, SDL_Texture*> _textures; 
 		std::map <std::string, Mix_Music*> _music;
 		std::map <std::string, Mix_Chunk*> _soundEffects;

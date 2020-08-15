@@ -9,6 +9,7 @@
 #include "InputManager.h"
 #include "DEFINITIONS.h"
 
+
 namespace Mer
 {
 	struct GameData //struct containing data for game data is passed to every state

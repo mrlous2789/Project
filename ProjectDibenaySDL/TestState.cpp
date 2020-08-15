@@ -13,6 +13,7 @@ namespace Mer
 	void TestState::Init()
 	{		
 		std::cout << "Test State Started " << std::endl;
+		SDL_SetRenderDrawBlendMode(this->_data->renderer, SDL_BLENDMODE_BLEND);
 		ui.initUI(this->_data->renderer , &_am);
 		ui.ProccessUIFile(uiFile, this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
 
@@ -61,20 +62,18 @@ namespace Mer
 					std::cout << "Zooming in " << std::endl;
 					gmc.setZoomIn(true);
 					gmc.setZoomOut(false);
+					gmc.setSpeed(event.wheel.y);
 				}
 				else if (event.wheel.y < 0)
 				{
 					std::cout << "Zooming out" << std::endl;
 					gmc.setZoomOut(true); 
 					gmc.setZoomIn(false);
+					gmc.setSpeed(event.wheel.y);
 				}
 				break;
-			}
-			
-				
+			}			
 		}
-
-
 	}
 
 
@@ -114,6 +113,22 @@ namespace Mer
 				lmbPressed = "";
 				ui.changeParentVisibility("test_button_background");
 			}
+			else if (lmbPressed == "test_button_med_right")
+			{
+				this->_data->settings.ChangeSetting("display", "screen_width", 1280);
+				this->_data->settings.ChangeSetting("display", "screen_height", 720);
+				this->_data->settings.SaveSettings();
+
+				SDL_SetWindowSize(this->_data->window, this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
+				ui.signalResolutionChange(this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
+				gmc.UpdateScreenResolution(this->_data->settings.getDisplaySetting("screen_width"), this->_data->settings.getDisplaySetting("screen_height"));
+				lmbPressed = "";
+			}
+			else
+			{
+				std::cout << "TestState: " << lmbPressed << " unhandled button " << std::endl;
+				lmbPressed = "";
+			}
 		}
 		gmc.UpdateMap();
 		ui.ProcessUIChanges();
@@ -125,6 +140,7 @@ namespace Mer
 		if (this->_data->running)
 		{
 			SDL_RenderClear(this->_data->renderer);
+
 			gmc.RenderMap();
 			ui.RenderUI();
 

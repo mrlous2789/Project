@@ -48,6 +48,12 @@
     <ClCompile Include="SettingsMenuState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Nation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Province.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="State.h">
@@ -84,6 +90,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DEFINITIONS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Nation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Province.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

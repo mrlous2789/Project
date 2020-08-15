@@ -1,5 +1,6 @@
 texture:map_base_layer=./Assets/Map_Files/Map_Base_Layer.png
-texture:map_nations_layer=./Assets/Map_Files/Map_Nations_Layer.png
+surface:map_nations_layer=./Assets/Map_Files/Map_Nations_Layer.png
+surface:map_provinces_layer=./Assets/Map_Files/Map_Provinces_Layer.png
 texture:map_coloured_layer=./Assets/Map_Files/Map_Coloured_Base.png
 texture:test_button=./Assets/UI/Test_Button.png
 texture:test_button_background=./Assets/UI/Test_Button_Background.png

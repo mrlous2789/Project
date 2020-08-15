@@ -83,6 +83,10 @@ namespace Mer
 		{
 			return false;
 		}
+		if (IMG_Init(IMG_INIT_PNG) < 0)
+		{
+			return  false;
+		}
 
 		return true;//return true if nothing failed
 	}

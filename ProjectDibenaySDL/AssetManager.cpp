@@ -10,15 +10,31 @@ namespace Mer
 	void AssetManager::LoadTexture(std::string name, std::string filename, SDL_Renderer* renderer)
 	{
 		SDL_ClearError(); //clear error queue
-		SDL_Texture* tex = IMG_LoadTexture(renderer, filename.c_str()); //load texture from file
-		const char* error = SDL_GetError(); // store any errors in variable
+		SDL_Surface* tmpsurface = IMG_Load(filename.c_str());
+		SDL_Texture* tex = SDL_CreateTextureFromSurface(renderer, tmpsurface); //load texture from file
+		const char* error = IMG_GetError(); // store any errors in variable
 		if (!*error) // if no error store texture into texture map
 		{
 			this->_textures[name] = tex;
 		}
 		else //print to console error info
 		{
-			std::cout << "Failed to load: " << name << " at: " << filename << std::endl << SDL_GetError() << std::endl;
+			std::cout << "Failed to load: " << name << " at: " << filename << std::endl << error << std::endl;
+		}
+		SDL_FreeSurface(tmpsurface);
+	}
+	void AssetManager::LoadTexture(std::string name, SDL_Renderer* renderer, SDL_Surface* surface)
+	{
+		SDL_ClearError(); //clear error queue
+		SDL_Texture* tex = SDL_CreateTextureFromSurface(renderer, surface); //load texture from file
+		const char* error = IMG_GetError(); // store any errors in variable
+		if (!*error) // if no error store texture into texture map
+		{
+			this->_textures[name] = tex;
+		}
+		else //print to console error info
+		{
+			std::cout << "Failed to load: " << name << std::endl << error << std::endl;
 		}
 	}
 
@@ -27,6 +43,24 @@ namespace Mer
 		return this->_textures.at(name);
 	}
 
+	void AssetManager::LoadSurface(std::string name, std::string filename)
+	{
+		SDL_ClearError();
+		SDL_Surface* surface = IMG_Load(filename.c_str());
+		const char* error = SDL_GetError(); // store any errors in variable
+		if (!*error) // if no error store texture into texture map
+		{
+			this->_surfaces[name] = surface;
+		}
+		else //print to console error info
+		{
+			std::cout << "Failed to load: " << name << " at: " << filename << std::endl << SDL_GetError() << std::endl;
+		}
+	}
+	SDL_Surface* AssetManager::getSurface(std::string name) //return texture by key value
+	{
+		return this->_surfaces.at(name);
+	}
 
 	void AssetManager::LoadMusic(std::string name, std::string filename)
 	{
@@ -180,6 +214,10 @@ namespace Mer
 				else if (type == "effect")//if type is effect load to sound effects  map
 				{
 					LoadEffect(name, location);
+				}
+				else if (type == "surface")
+				{
+					LoadSurface(name, location);
 				}
 				else//else output error
 				{

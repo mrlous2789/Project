@@ -121,7 +121,7 @@ namespace Mer
 		}
 		else
 		{
-			std::cout << category << " Bad category" << std::endl;
+			std::cout << category << "UIC: Bad category" << std::endl;
 		}
 
 	}
@@ -133,7 +133,6 @@ namespace Mer
 	{
 		if (input == "1")
 		{
-			std::cout << input << std::endl;
 			return true;
 		}
 		else if(input == "0")
@@ -142,7 +141,7 @@ namespace Mer
 		}
 		else
 		{
-			std::cout << "bad visiiblity input setting to false " << std::endl;
+			std::cout << "UIC: bad visiiblity input setting to false " << std::endl;
 			return false;
 		}
 	}
@@ -221,7 +220,6 @@ namespace Mer
 	void UIController::changeParentVisibility(std::string name)
 	{
 		uiElementsI[getParentByName(name)].changeVisiblity();
-		std::cout << "changed" << std::endl;
 		_visibilityChange = true;
 	}
 
@@ -237,8 +235,6 @@ namespace Mer
 		{
 			if (uiElementsI[getParentByName((uiElementsB[i].getParentName()))].getVisible() != uiElementsB[i].getVisible())
 			{
-				std::cout << "Parent Visiblity " << uiElementsI[getParentByName((uiElementsB[i].getParentName()))].getVisible() << " Child visibility " << uiElementsB[i].getVisible() << std::endl;
-				std::cout << "Visiblilty Changed " << uiElementsB[i].getName() << std::endl;
 				uiElementsB[i].changeVisiblity();
 			}
 		}
