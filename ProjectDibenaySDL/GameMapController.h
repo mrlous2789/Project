@@ -2,6 +2,7 @@
 #include "AssetManager.h"
 #include <SDL.h>
 #include <fstream>
+#include <sstream>
 #include "DEFINITIONS.h"
 #include <vector>
 #include "Nation.h"
@@ -38,11 +39,16 @@ namespace Mer
 
 		void ProcessZoomIn();
 		void ProcessZoomOut();
+
 		void UpdateMapRect();
-		void CalculateNations(std::string filename);
-		void CalculateProvinces(std::string filename);
+
+		void LoadNations(std::string filename);
+		void LoadProvinces(std::string filename);
+
 		void FinaliseLoading();
+
 		void RenderProvinces();
+		void RenderNations();
 
 		SDL_Rect mapSRect;
 		SDL_Rect mapDRect;
@@ -58,7 +64,8 @@ namespace Mer
 		float maxZoom = 2.0f;
 		float minZoom = 1.0f;
 
-		void CalculateBorders(std::string mapFile);
+		void CalculateProvinceBorders(std::string mapFile);
+		void CalculateNationBorders();
 
 		std::vector<Nation> _nations;
 		std::vector<Province> _provinces;

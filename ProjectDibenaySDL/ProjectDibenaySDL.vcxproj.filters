@@ -99,4 +99,76 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Config_Files\Map_Config\provinces.txt" />
+    <Text Include="Assets\Config_Files\game_assets.txt" />
+    <Text Include="Assets\Config_Files\game_ui.txt" />
+    <Text Include="Assets\Config_Files\loading_screen_assets.txt" />
+    <Text Include="Assets\Config_Files\settings.txt" />
+    <Text Include="Assets\Config_Files\settings_default.txt" />
+    <Text Include="Assets\Config_Files\settings_menu_assets.txt" />
+    <Text Include="Assets\Config_Files\settings_menu_ui.txt" />
+    <Text Include="Assets\Config_Files\Map_Config\nations.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\Audio\Effects\Test_Effect.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Assets\Audio\Music\Test_Music.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Loading_Screen\Test_Loading_Bar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Loading_Screen\Test_Loading_Bar_Outline.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Map_Files\old\Map_Provinces_Layer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Map_Files\old\Map_Provinces_Layer1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Map_Files\Dibenay May19 18-37.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Map_Files\Map_Base_Layer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Map_Files\Map_Coloured_Base.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Map_Files\Map_Nations_Layer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Map_Files\Map_Provinces_Layer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Settings_Screen\Apply_Cancel_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Settings_Screen\Selected_Category_Panel.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Settings_Screen\Setting_Name_Panel.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Settings_Screen\Setting_Text_Panel.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Settings_Screen\Settings_Main_Panel.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\UI\Test_Button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\UI\Test_Button_Background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Map_Files\Map_Provinces_Layer.xcf" />
+  </ItemGroup>
 </Project>

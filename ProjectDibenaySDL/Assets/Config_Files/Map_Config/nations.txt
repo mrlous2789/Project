@@ -1,4 +1,1 @@
-Andorys:Andor:197:246:186
-Candor:Plalydodes:179:242:249
-Dracian High Mountain:Hall of Drace:177:151:151
-Drolar:Drolar:135:245:87
+Andorys:106:247:93:andor:gafren

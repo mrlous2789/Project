@@ -1,0 +1,1 @@
+build whole map then choose where to render

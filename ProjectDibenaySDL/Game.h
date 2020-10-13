@@ -1,13 +1,17 @@
 #pragma once
 
-#include <memory>
 //include header files
+#include <memory>
 #include <string>
 #include <SDL.h>
+#include <gl/glew.h>
+#include <gl/GLU.h>
+#include <SDL_opengl.h>
 #include "StateMachine.h"
 #include "AssetManager.h"
 #include "InputManager.h"
 #include "DEFINITIONS.h"
+
 
 
 namespace Mer
@@ -37,8 +41,10 @@ namespace Mer
 		std::string settingsFile = SETTINGS; //settings file location
 
 		void Run();
-		bool InitSDL();
+		bool Init();
 		void CleanUp();
+
+		SDL_BlendMode bm;
 	};
 }
 

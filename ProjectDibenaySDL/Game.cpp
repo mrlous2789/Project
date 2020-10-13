@@ -5,7 +5,7 @@ namespace Mer
 {
 	Game::Game()
 	{
-		if (InitSDL())//if sdl and other componets were initalised correctly start program
+		if (Init())//if sdl and other componets were initalised correctly start program
 		{
 			_data->settings.ProcessSettingsFile(settingsFile);//load settings from file
 			//sets music volume to ('music_volume' * 'master_volume') / 100 using the settings
@@ -15,7 +15,9 @@ namespace Mer
 			//create centered window titled 'Dibenay' with height and width from settings file
 			_data->window = SDL_CreateWindow("Dibenay", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _data->settings.getDisplaySetting("screen_width"), _data->settings.getDisplaySetting("screen_height"), NULL);
 			//create renderer for game
-			_data->renderer = SDL_CreateRenderer(_data->window, -1, 0);
+			_data->renderer = SDL_CreateRenderer(_data->window, -1, SDL_RENDERER_ACCELERATED);
+			//set renderer blending mode
+			SDL_SetRenderDrawBlendMode(_data->renderer, SDL_BLENDMODE_BLEND);
 			//add first state to state machine
 			_data->machine.AddState(StateRef(new TestLoadingState(_data)));
 			//sets running to be true in game data
@@ -25,9 +27,8 @@ namespace Mer
 		}
 		else//else output to console an error
 		{
-			std::cout << "Probelem initialising SDL" << std::endl;
+			std::cout << "Probelem initialising" << std::endl;
 		}
-
 	}
 
 
@@ -73,18 +74,26 @@ namespace Mer
 	}
 
 
-	bool Game::InitSDL()
+	bool Game::Init()
 	{
-		if (SDL_Init(SDL_INIT_EVERYTHING) < 0)//if initialsing SDL failed return false
+		if (SDL_Init(SDL_INIT_VIDEO) < 0)//if initialsing SDL failed return false
 		{
+			std::cout << "SDL could not initialise" << std::endl;
+			return false;
+		}
+		if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
+		{
+			std::cout << "Warning: Linear texture filtering not enabled" << std::endl;
 			return false;
 		}
 		if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) < 0)//if opening audio device failed return false
 		{
+			std::cout << "Audio could not initialise" << std::endl;
 			return false;
 		}
 		if (IMG_Init(IMG_INIT_PNG) < 0)
 		{
+			std::cout << "IMG could not initialise" << std::endl;
 			return  false;
 		}
 

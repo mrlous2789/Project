@@ -9,3 +9,11 @@
 #define SETTINGS_MENU_UI "./Assets/Config_Files/settings_menu_ui.txt"
 #define NATIONS_DATA_FILE "./Assets/Config_Files/Map_Config/nations.txt"
 #define PROVINCES_DATA_FILE "./Assets/Config_Files/Map_Config/provinces.txt"
+
+//map properties
+#define MAP_WIDTH 3840
+#define MAP_HEIGHT 2160
+
+//map files
+#define MAP_PROVINCES_LAYER "./Assets/Map_Files/Map_Provinces_Layer.png"
+#define MAP_NATIONS_LAYER "./Assets/Map_Files/Map_Nations_Layer.png"
